@@ -1,0 +1,32 @@
+name: classify
+
+# 앱스크립트가 보낸 repository_dispatch(type=classify) 신호로 실행됨
+on:
+  repository_dispatch:
+    types: [classify]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: 의존성 설치
+        run: pip install -r requirements.txt
+
+      - name: 분류 실행
+        env:
+          ENNOIA_API_KEY: ${{ secrets.ENNOIA_API_KEY }}
+          ENNOIA_PROJECT: ${{ secrets.ENNOIA_PROJECT }}
+          PRESET_HASH: ${{ secrets.PRESET_HASH }}
+          GOOGLE_CREDS_JSON: ${{ secrets.GOOGLE_CREDS_JSON }}
+          MAX_CONCURRENT: "20"
+          SHEET_URL: ${{ github.event.client_payload.sheet_url }}
+          RESPONSE_URL: ${{ github.event.client_payload.response_url }}
+        run: python run_once.py

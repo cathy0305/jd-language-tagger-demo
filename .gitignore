@@ -1,0 +1,34 @@
+# Env
+.env
+*.env
+
+# Google credentials
+google_creds.json
+credentials.json
+*_creds.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Logs
+*.log
+
+# 예시 환경변수 파일은 공개
+!.env.example
+
+demo/output.csv
